@@ -1,4 +1,4 @@
-// package linkedin provides basic functionality to access the LinkedIn API
+// Package linkedin provides basic functionality to access the LinkedIn API.
 package linkedin
 
 import (
@@ -9,7 +9,10 @@ import (
 	"net/http"
 )
 
-const ErrInvalidClient = "Invalid Client"
+// Error strings
+const (
+	ErrInvalidClient = "Invalid Client"
+)
 
 // Client manages communication with the LinkedIn API
 type Client struct {
@@ -55,7 +58,7 @@ type positions struct {
 	Values []Position
 }
 
-// Work position
+// Position represents a LinkedIn work position.
 type Position struct {
 	Id        int
 	IsCurrent bool
@@ -67,6 +70,7 @@ type Position struct {
 	Company   Company
 }
 
+// Company represents a LinkedIn company.
 type Company struct {
 	Id       int
 	Industry string
@@ -75,22 +79,25 @@ type Company struct {
 	Type     string
 }
 
+// Location represents a LinkedIn geographical location.
 type Location struct {
 	Name    string
 	Country Country
 }
 
+// Country represents a LinkedIn Country tuple.
 type Country struct {
 	Name string
 	Code string
 }
 
+// Date represents a LinkedIn Date tuple, which consists of Month and Year only.
 type Date struct {
 	Month int
 	Year  int
 }
 
-// Returns a new Client using the provided accessToken
+// NewClient returns a new Client using the provided accessToken.
 func NewClient(accessToken string) (c *Client, err error) {
 	if accessToken == "" {
 		return nil, errors.New(ErrInvalidClient)
@@ -104,7 +111,7 @@ var allFields = []string{"first-name", "last-name", "maiden-name",
 	"specialties", "picture-url", "site-standard-profile-request", "api-standard-profile-request",
 	"public-profile-url", "email-address", "industry", "picture-urls::(original)", "location", "positions", "id"}
 
-// Get the profile for the user associated with the accessToken. Supply no fields
+// BasicProfile returns the profile for the user associated with the accessToken. Supply no fields
 // to receive the minimal profile, or supply a list of field names per the LinkedIn API
 // (https://developer.linkedin.com/docs/fields/basic-profile) to receive those fields,
 // or supply "all" as the field to receive all the possible basic profile fields.
